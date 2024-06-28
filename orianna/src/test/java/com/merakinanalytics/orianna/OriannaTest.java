@@ -10,6 +10,10 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
+import com.merakianalytics.orianna.types.common.Region;
+import com.merakianalytics.orianna.types.core.match.Match;
+import com.merakianalytics.orianna.types.core.match.MatchHistory;
+import com.merakianalytics.orianna.types.core.summoner.Summoner;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -25,14 +29,30 @@ import com.merakianalytics.orianna.datapipeline.PipelineConfiguration.Transforme
 import com.merakianalytics.orianna.datapipeline.common.expiration.ExpirationPeriod;
 import com.merakianalytics.orianna.datapipeline.riotapi.RiotAPI;
 import com.merakianalytics.orianna.types.common.Platform;
+import org.slf4j.LoggerFactory;
 
 public class OriannaTest {
+
+    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(OriannaTest.class);
+
     public static class ConfigurationTest {
+
         private Configuration pipeConfig;
 
         @Before
         public void setUp() {
             pipeConfig = new Configuration();
+            Orianna.setDefaultRegion(Region.EUROPE_WEST);
+            Orianna.setDefaultPlatform(Platform.EUROPE_WEST);
+            Orianna.setDefaultLocale("en_US");
+        }
+
+        @Test
+        public void testMatchV5() {
+            Summoner summoner = Summoner.named("Snaipen").get();
+            LOGGER.info(summoner.toString());
+            //Match match = MatchHistory.forSummoner(summoner).get().get(0);
+            //LOGGER.info("Match: " + match.toString());
         }
 
         @Test
